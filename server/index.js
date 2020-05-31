@@ -1,6 +1,6 @@
 import React from 'react';
 import express from 'express';
-import { renderToString } from 'react-dom/server';
+import { renderToNodeStream } from 'react-dom/server';
 import { ServerLocation } from '@reach/router';
 import fs from 'fs';
 import App from '../src/App';
@@ -18,14 +18,28 @@ app.use('/dist', express.static('dist'));
 
 // middleware to run everytime a req happens
 app.use((req, res) => {
+    // immediately send first part
+    res.write(parts[0]);
     const reactMarkup = (
         <ServerLocation url={req.url}>
             <App />
         </ServerLocation>
     );
 
-    res.send(parts[0] + renderToString(reactMarkup) + parts[1]);
-    res.end();
+    //create a stream to progressively load data - stream sends many small parcels instead of one large payload
+    const stream = renderToNodeStream(reactMarkup);
+
+    // this connects the two pipes 
+    stream.pipe(
+        res,
+        {end: false}
+    );
+
+    // then when you are done send the last part and end
+    stream.on("end", () => {
+        res.write(parts[1]);
+        res.end();
+    });
 });
 
 console.log('listening on ' + PORT);
