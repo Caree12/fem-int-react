@@ -1,10 +1,14 @@
-import React from "react";
+import React, { lazy } from "react";
 import pet from "@frontendmasters/pet";
 import { navigate } from "@reach/router";
 import Carousel from "./Carousel";
-import Modal from "./Modal";
 import ErrorBoundary from "./ErrorBoundary";
 import ThemeContext from "./ThemeContext";
+// no big help on lazy loading libraries - other than don't import the whole library
+// import _ from 'lodash';
+// import moment from 'moment';
+
+const Modal = lazy(() => import('./Modal'));
 
 class Details extends React.Component {
   state = { loading: true, showModal: false };
