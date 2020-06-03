@@ -1,20 +1,36 @@
-import React, { useEffect, useRef } from "react";
-import { createPortal } from "react-dom";
-
-const modalRoot = document.getElementById("modal");
-
-const Modal = ({ children }) => {
-  const elRef = useRef(null);
-  if (!elRef.current) {
-    elRef.current = document.createElement("div");
-  }
-
-  useEffect(() => {
-    modalRoot.appendChild(elRef.current);
-    return () => modalRoot.removeChild(elRef.current);
-  }, []);
-
-  return createPortal(<div>{children}</div>, elRef.current);
+"use strict";
+var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    Object.defineProperty(o, k2, { enumerable: true, get: function() { return m[k]; } });
+}) : (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    o[k2] = m[k];
+}));
+var __setModuleDefault = (this && this.__setModuleDefault) || (Object.create ? (function(o, v) {
+    Object.defineProperty(o, "default", { enumerable: true, value: v });
+}) : function(o, v) {
+    o["default"] = v;
+});
+var __importStar = (this && this.__importStar) || function (mod) {
+    if (mod && mod.__esModule) return mod;
+    var result = {};
+    if (mod != null) for (var k in mod) if (Object.hasOwnProperty.call(mod, k)) __createBinding(result, mod, k);
+    __setModuleDefault(result, mod);
+    return result;
 };
-
-export default Modal;
+Object.defineProperty(exports, "__esModule", { value: true });
+const react_1 = __importStar(require("react"));
+const react_dom_1 = require("react-dom");
+const modalRoot = document.getElementById("modal");
+const Modal = ({ children }) => {
+    const elRef = react_1.useRef(null);
+    if (!elRef.current) {
+        elRef.current = document.createElement("div");
+    }
+    react_1.useEffect(() => {
+        modalRoot.appendChild(elRef.current);
+        return () => modalRoot.removeChild(elRef.current);
+    }, []);
+    return react_dom_1.createPortal(react_1.default.createElement("div", null, children), elRef.current);
+};
+exports.default = Modal;
